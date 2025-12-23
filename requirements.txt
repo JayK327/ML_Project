@@ -4,4 +4,4 @@ seaborn
 matplotlib
 scikit-learn
 flask
--e .
+-e . # for local package installation ,When you want to test changes immediately
