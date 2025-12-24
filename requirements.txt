@@ -7,5 +7,6 @@ flask
 seaborn
 xgboost
 catboost
+dill
  # for local package installation ,When you want to test changes immediately
 -e .
