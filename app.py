@@ -34,7 +34,35 @@ def predict_datapoint():
         return render_template('home.html', results=results[0])
 
 
+@app.route("/predict", methods=["POST"])
+def predict_api():
+    try:
+        data = request.get_json()
 
+        custom_data = CustomData(
+            gender=data["gender"],
+            race_ethnicity=data["ethnicity"],
+            parental_level_of_education=data["parental_level_of_education"],
+            lunch=data["lunch"],
+            test_preparation_course=data["test_preparation_course"],
+            reading_score=float(data["reading_score"]),
+            writing_score=float(data["writing_score"])
+        )
+
+        pred_df = custom_data.get_data_as_data_frame()
+        predict_pipeline = PredictPipeline()
+        result = predict_pipeline.predict(pred_df)
+
+        return jsonify({
+            "success": True,
+            "predicted_math_score": round(result[0], 2)
+        })
+
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 400
 
 
 if __name__ == "__main__":
